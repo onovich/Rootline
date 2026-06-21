@@ -19,7 +19,7 @@ describe("tick shell", () => {
     assert.equal(nextWorld.tick, 1);
     assert.equal(nextWorld.rngState, 3539251108);
     assert.equal(nextWorld.events.at(-1)?.type, "tick");
-    assert.equal(nextWorld.events.at(-1)?.id, "event.1.tick.3");
+    assert.equal(nextWorld.events.at(-1)?.id, "event.1.tick.4");
   });
 
   it("replays deterministically from the same seed scenario", () => {

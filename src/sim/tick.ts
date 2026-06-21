@@ -1,5 +1,6 @@
 import { appendSimulationEvent } from "./events.js";
 import { nextRngState } from "./rng.js";
+import { applyResourceFlow } from "./resources.js";
 import type { WorldSnapshot } from "./types.js";
 
 export interface TickOptions {
@@ -34,9 +35,12 @@ export function advanceTick(
     tick: nextTick,
     rngState: nextRngState(world.rngState),
   };
+  const resourceFlow = applyResourceFlow(tickingWorld, {
+    resourceFlowRate: tickOptions.resourceFlowRate,
+  });
 
-  return appendSimulationEvent(tickingWorld, {
+  return appendSimulationEvent(resourceFlow.world, {
     type: "tick",
-    message: `Tick ${nextTick} advanced with resource flow rate ${tickOptions.resourceFlowRate}.`,
+    message: `Tick ${nextTick} advanced with ${resourceFlow.transfers.length} resource transfers.`,
   });
 }

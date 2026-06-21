@@ -1,4 +1,6 @@
-export type ResourceKey = "food" | "oxygen" | "heat";
+export const RESOURCE_KEYS = ["food", "oxygen", "heat"] as const;
+
+export type ResourceKey = (typeof RESOURCE_KEYS)[number];
 
 export type ResourceStock = Record<ResourceKey, number>;
 

@@ -19,7 +19,8 @@ Phase 2: cave graph and deterministic tick simulation core.
 Current Phase 2 work is extending the simulation layer in small pushed rounds:
 Round 1 replaced ambiguous node occupants with explicit entity references,
 Round 2 added graph validation and graph commands, and Round 3 adds the
-deterministic tick shell.
+deterministic tick shell. Round 4 adds deterministic resource flow across open
+cave edges.
 
 ## Commands
 
