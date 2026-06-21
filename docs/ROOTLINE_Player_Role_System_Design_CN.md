@@ -629,6 +629,16 @@ Goal 2 建议 3 轮完成；本文件完成 Round 1 首版。
 - `docs/ROOTLINE_Player_Role_System_Design_CN.md`
 - 后续可能新增 `docs/ROOTLINE_Role_Scenario_QA_CN.md`
 
+Round 2 交付物：
+
+- `docs/ROOTLINE_Role_Scenario_QA_CN.md`
+
+Round 2 结论：
+
+- 四个首批角色均在至少 2 个候选场景中形成不同解法路径。
+- 八个角色行动均已追踪到触发条件、状态变化、玩家反馈和副作用。
+- 后续 Round 3 应把角色字段和行动拆成 content-only、scenario initialization、graph command、relation model、quest/history dependency 五类，交由架构师审查。
+
 验收标准：
 
 - 每个角色在至少 2 个场景中有不同解法路径。
