@@ -1,0 +1,22 @@
+{
+  "name": "rootline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.12"
+  },
+  "scripts": {
+    "clean": "rm -rf dist dist-tests",
+    "build": "rm -rf dist && tsc -p tsconfig.app.json && node scripts/copy-static.mjs",
+    "build:tests": "rm -rf dist-tests && tsc -p tsconfig.test.json",
+    "dev": "npm run build && python3 -m http.server 5173 -d dist",
+    "test": "npm run build:tests && node --test dist-tests/tests/*.test.js",
+    "check": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "verify": "npm run check && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.121",
+    "typescript": "^5.4.5"
+  }
+}
