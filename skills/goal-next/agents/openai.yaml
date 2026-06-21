@@ -1,4 +1,4 @@
 interface:
   display_name: "GoalNext"
-  short_description: "Plan next goals by session role"
-  default_prompt: "Use $goal-next to design the next phase for the current session role, asking me to choose 主策划, 执行策划, 架构师, or 执行程序 if unclear."
+  short_description: "Plan goals into local docs by role"
+  default_prompt: "Use $goal-next to design the next phase for the current session role and save the plan as a local project document, asking me to choose 主策划, 执行策划, 架构师, or 执行程序 if unclear."

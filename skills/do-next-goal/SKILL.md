@@ -1,6 +1,6 @@
 ---
 name: do-next-goal
-description: Execute the next project goal through planned rounds with role-aware routing for 主策划, 执行策划, 架构师, and 执行程序 sessions, goal-mode tracking, strict round budgets, end-of-round self-checks, debugging, architecture or content review, and explicit acceptance gates before advancing. If the current session role is unclear, ask the user to choose a role before execution. Use when a user asks an AI agent to complete upcoming goals, follow a project plan by rounds or phases, work in goal mode, continue until the goal is done, or self-check/debug/review architecture or design after each round.
+description: Execute the next project goal through planned rounds with role-aware routing for 主策划, 执行策划, 架构师, and 执行程序 sessions, goal-mode tracking, strict round budgets, end-of-round self-checks, debugging, architecture or content review, and explicit acceptance gates before advancing. After each completed round, commit and push the round's approved changes to the remote before starting the next round. If the current session role is unclear, ask the user to choose a role before execution. Use when a user asks an AI agent to complete upcoming goals, follow a project plan by rounds or phases, work in goal mode, continue until the goal is done, push after every round, or self-check/debug/review architecture or design after each round.
 ---
 
 # DoNextGoal
@@ -11,6 +11,26 @@ Use this skill to convert a broad project goal into controlled execution rounds.
 It first routes the work by session role, then requires each round to end with
 verification, debugging, architecture or content review, and an advance/block
 decision.
+
+## Per-Round Remote Push Requirement
+
+Every completed round must be committed and pushed to the configured remote
+before starting the next round.
+
+The required sequence is:
+
+1. Complete the round artifact.
+2. Run self-check, debugging, architecture/content review, and verification.
+3. Confirm the round gate passes.
+4. Stage only files relevant to the round.
+5. Commit with a clear round-scoped message.
+6. Push to the remote tracking branch.
+7. Record the commit hash and push result.
+8. Start the next round only after the push succeeds.
+
+If the repository has no remote, push fails, authentication is unavailable, or
+the environment cannot commit, stop and report the blocker. Do not silently
+continue to the next round without a pushed checkpoint.
 
 ## Session Role Gate
 
@@ -90,11 +110,14 @@ Execution rules:
      maintainability
 6. Only advance to the next round if the current round passes its gate. If it
    fails, debug and repair before continuing.
-7. Do not skip verification to save time. If a verification command cannot run,
+7. After a round passes, stage only relevant files, commit, and push to the
+   configured remote before starting the next round. Record the commit hash.
+8. Do not skip verification or pushing to save time. If a verification command
+   or push cannot run,
    explain why and perform the strongest available substitute check.
-8. Keep changes scoped to the current goal. Do not refactor unrelated areas or
+9. Keep changes scoped to the current goal. Do not refactor unrelated areas or
    expand design scope without approval.
-9. Stop only when the goal is complete, the round budget is exhausted with a
+10. Stop only when the goal is complete, the round budget is exhausted with a
    clear remaining-work report, or a genuine blocker requires user input.
 
 Final response:
@@ -102,6 +125,7 @@ Final response:
 - State whether the goal is complete.
 - Summarize completed rounds.
 - List verification performed.
+- List per-round commit hashes and push status.
 - Note remaining risks or next recommended round.
 ```
 
@@ -118,6 +142,7 @@ Final response:
    - verify it
    - debug failures
    - review architecture or content fit
+   - commit and push the passed round
    - record pass/fail status
 6. Continue only after the gate passes.
 7. End with a concise completion report.
@@ -134,6 +159,7 @@ A round passes only when all applicable checks are true:
 - New content is system-readable, scoped, and backed by triggers, examples, or
   acceptance criteria when the role is 主策划 or 执行策划.
 - The round did not introduce unrelated changes.
+- The round's relevant changes were committed and pushed to the remote.
 - The next round has a clear target.
 
 ## Architecture Review Checklist

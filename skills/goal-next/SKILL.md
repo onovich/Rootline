@@ -1,6 +1,6 @@
 ---
 name: goal-next
-description: Create the detailed design document for the next project phase or goal from an existing project plan, with role-aware routing for 主策划, 执行策划, 架构师, and 执行程序 sessions. Includes per-round acceptance gates, self-check/debug/architecture-review standards, and strong quality constraints. If the current session role is unclear, ask the user to choose a role before planning. Use when a user asks an AI agent to plan the next phase, turn a roadmap phase into executable design docs, define round-by-round self-check standards, impose strict coding guardrails, or prepare planning work for design or development agents.
+description: Create and save a local detailed design document for the next project phase or goal from an existing project plan, with role-aware routing for 主策划, 执行策划, 架构师, and 执行程序 sessions. Includes per-round acceptance gates, self-check/debug/architecture-review standards, and strong quality constraints. If the current session role is unclear, ask the user to choose a role before planning. Use when a user asks an AI agent to plan the next phase, turn a roadmap phase into executable design docs, define round-by-round self-check standards, impose strict coding guardrails, or prepare planning work for design or development agents. Planning output must be written to a local project document unless the user explicitly forbids file changes.
 ---
 
 # GoalNext
@@ -11,6 +11,22 @@ Use this skill before implementation begins for a new phase or goal. It routes
 the planning work by session role, then converts the roadmap item into a
 practical execution document with scope, content or architecture boundaries,
 round plan, verification gates, and quality constraints.
+
+## Local Document Requirement
+
+Planning work must produce a local document, not only a chat response. Save the
+document in the project's documentation area, usually `docs/`, unless the user
+provides another path or explicitly forbids file changes.
+
+Use a clear filename that includes the project, phase or goal, and planning
+purpose, such as:
+
+- `docs/<PROJECT>_Phase_<N>_Design_CN.md`
+- `docs/<PROJECT>_Design_Work_Roadmap_CN.md`
+- `docs/<PROJECT>_<GOAL>_Plan.md`
+
+Before finishing, verify that the file exists, has the expected sections, and
+can be handed to another AI without relying on chat history.
 
 ## Session Role Gate
 
@@ -71,8 +87,14 @@ Current phase:
 Target next phase:
 <NEXT_PHASE>
 
+Local document path:
+<OUTPUT_DOC_PATH>
+
 Before writing the document, identify the session role. If it is unknown or
 ambiguous, ask the user to choose one of: 主策划, 执行策划, 架构师, 执行程序.
+
+Write the completed plan to <OUTPUT_DOC_PATH>. Do not treat the chat response as
+the primary artifact unless the user explicitly forbids local file changes.
 
 Output a role-routed phase design document that includes:
 1. Phase objective and non-goals.
@@ -108,6 +130,7 @@ Output a role-routed phase design document that includes:
    - require tests for risky behavior
    - require deterministic behavior where reproducibility matters
 9. Risks, open questions, and decisions that must be resolved before execution.
+10. The local document path and verification result.
 
 The document must be specific enough that a separate development AI can execute
 the phase without inventing architecture or design direction on the fly. Do not
@@ -126,8 +149,9 @@ write production code yet unless explicitly asked.
    schemas, data contracts, user flows, modules, tests, commands, or QA checks.
 7. Split the phase into rounds. Each round should be independently reviewable.
 8. Define quality gates before any code or content production begins.
-9. Save the design document in the project documentation area if the user asks
-   for a local artifact.
+9. Save the design document in the project documentation area.
+10. Verify the saved file exists and contains the required sections before
+   reporting completion.
 
 ## Design Document Structure
 
@@ -164,6 +188,7 @@ Every implementation round must verify:
 - Any failing check has a named cause and next action.
 - No unrelated refactor or behavior change was introduced.
 - Documentation, commands, and examples were updated when affected.
+- The planning artifact was saved to a local file and the path is recorded.
 
 ## Debug Standard
 
@@ -226,3 +251,4 @@ End the document with an implementation prompt that names:
 - the session role to use
 - the first round goal
 - the self-check/debug/architecture gates that must be used before advancing
+- the local document path to use as the source of truth
