@@ -1,0 +1,4 @@
+interface:
+  display_name: "Goal Phase Executor"
+  short_description: "Run phased goals with strict self-checks"
+  default_prompt: "Use $goal-phase-executor to complete the next project goal in planned rounds with self-checks before advancing."
