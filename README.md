@@ -6,7 +6,7 @@ presentation layer on top of a deterministic simulation core.
 
 ## Current Phase
 
-Phase 1: technical stack and project skeleton.
+Phase 2: cave graph and deterministic tick simulation core.
 
 - TypeScript for the simulation and UI code.
 - Node's built-in test runner for fast unit tests.
@@ -15,6 +15,10 @@ Phase 1: technical stack and project skeleton.
 - `src/data` for authored seeds and scenario data.
 - `src/ui` for presentation.
 - `src/tests` for focused verification.
+
+Current Phase 2 work is extending the simulation layer in small pushed rounds.
+Round 1 replaces ambiguous node occupants with explicit entity references and
+makes the debug graph overview data-driven.
 
 ## Commands
 

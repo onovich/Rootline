@@ -72,20 +72,14 @@ function renderGraph(world: WorldSnapshot): HTMLElement {
   const panel = panelElement("Cave Graph");
   const graph = document.createElement("pre");
   graph.className = "ascii-map";
-  graph.textContent = [
-    "         [Echo Vault]",
-    "              | open",
-    "[Sealed Vein] x blocked",
-    "              |",
-    "       [Rootwell Atrium] -- open -- [Spore Market]",
-  ].join("\n");
+  graph.textContent = formatGraphOverview(world);
 
   const edgeList = document.createElement("ul");
   edgeList.className = "edge-list";
 
   for (const edge of world.edges) {
     const item = document.createElement("li");
-    item.textContent = `${edge.from} -> ${edge.to}: ${edge.state}`;
+    item.textContent = `${edge.from} -> ${edge.to}: ${edge.state} | cost ${edge.traversalCost} | stress ${edge.stabilityStress}`;
     item.dataset.state = edge.state;
     edgeList.append(item);
   }
@@ -121,10 +115,13 @@ function renderNodeCard(node: CaveNode, world: WorldSnapshot): HTMLElement {
   const resources = document.createElement("p");
   resources.textContent = `food ${node.resources.food} / oxygen ${node.resources.oxygen} / heat ${node.resources.heat}`;
 
+  const residents = document.createElement("p");
+  residents.textContent = `factions: ${formatIds(node.factionIds)} | npcs: ${formatIds(node.npcIds)}`;
+
   const neighbors = document.createElement("p");
   neighbors.textContent = `open neighbors: ${formatNeighborNames(node.id, world)}`;
 
-  card.append(title, meta, resources, neighbors);
+  card.append(title, meta, resources, residents, neighbors);
   return card;
 }
 
@@ -155,7 +152,7 @@ function renderFactions(world: WorldSnapshot): HTMLElement {
 
   for (const event of world.events) {
     const item = document.createElement("li");
-    item.textContent = event;
+    item.textContent = `[${event.type}] ${event.message}`;
     log.append(item);
   }
 
@@ -191,4 +188,29 @@ function metricText(label: string, value: number): HTMLElement {
 function formatNeighborNames(nodeId: string, world: WorldSnapshot): string {
   const neighbors = getOpenNeighbors(world, nodeId).map((node) => node.name);
   return neighbors.length > 0 ? neighbors.join(", ") : "none";
+}
+
+export function formatGraphOverview(world: WorldSnapshot): string {
+  const nodeNameById = new Map(world.nodes.map((node) => [node.id, node.name]));
+
+  return world.nodes
+    .map((node) => {
+      const edgeDescriptions = world.edges
+        .filter((edge) => edge.from === node.id || edge.to === node.id)
+        .map((edge) => {
+          const neighborId = edge.from === node.id ? edge.to : edge.from;
+          const neighborName = nodeNameById.get(neighborId) ?? neighborId;
+          return `${neighborName} [${edge.state}, cost ${edge.traversalCost}, stress ${edge.stabilityStress}]`;
+        });
+
+      const connectedTo =
+        edgeDescriptions.length > 0 ? edgeDescriptions.join("; ") : "none";
+
+      return `${node.name} -> ${connectedTo}`;
+    })
+    .join("\n");
+}
+
+function formatIds(ids: string[]): string {
+  return ids.length > 0 ? ids.join(", ") : "none";
 }

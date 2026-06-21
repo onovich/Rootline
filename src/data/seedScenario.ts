@@ -9,7 +9,8 @@ export const seedScenario: WorldSnapshot = {
       name: "Rootwell Atrium",
       resources: { food: 42, oxygen: 68, heat: 55 },
       stability: 92,
-      occupants: ["strata-guild"],
+      factionIds: ["strata-guild"],
+      npcIds: [],
       visibility: "visited",
     },
     {
@@ -17,7 +18,8 @@ export const seedScenario: WorldSnapshot = {
       name: "Echo Vault",
       resources: { food: 18, oxygen: 48, heat: 41 },
       stability: 77,
-      occupants: ["echo-cult"],
+      factionIds: ["echo-cult"],
+      npcIds: [],
       visibility: "known",
     },
     {
@@ -25,7 +27,8 @@ export const seedScenario: WorldSnapshot = {
       name: "Spore Market",
       resources: { food: 75, oxygen: 39, heat: 46 },
       stability: 64,
-      occupants: [],
+      factionIds: [],
+      npcIds: [],
       visibility: "known",
     },
     {
@@ -33,7 +36,8 @@ export const seedScenario: WorldSnapshot = {
       name: "Sealed Vein",
       resources: { food: 9, oxygen: 22, heat: 72 },
       stability: 35,
-      occupants: ["excavator-union"],
+      factionIds: ["excavator-union"],
+      npcIds: [],
       visibility: "unknown",
     },
   ],
@@ -44,6 +48,7 @@ export const seedScenario: WorldSnapshot = {
       to: "echo-vault",
       state: "open",
       traversalCost: 1,
+      stabilityStress: 4,
     },
     {
       id: "rootwell-spore",
@@ -51,6 +56,7 @@ export const seedScenario: WorldSnapshot = {
       to: "spore-market",
       state: "open",
       traversalCost: 2,
+      stabilityStress: 6,
     },
     {
       id: "spore-sealed",
@@ -58,6 +64,7 @@ export const seedScenario: WorldSnapshot = {
       to: "sealed-vein",
       state: "blocked",
       traversalCost: 3,
+      stabilityStress: 9,
     },
   ],
   factions: [
@@ -81,7 +88,19 @@ export const seedScenario: WorldSnapshot = {
     },
   ],
   events: [
-    "Survey begins at Rootwell Atrium.",
-    "Two open routes are mapped; one unstable vein remains sealed.",
+    {
+      id: "event.initial-survey",
+      tick: 0,
+      type: "survey",
+      message: "Survey begins at Rootwell Atrium.",
+      nodeIds: ["rootwell"],
+    },
+    {
+      id: "event.initial-routes",
+      tick: 0,
+      type: "survey",
+      message: "Two open routes are mapped; one unstable vein remains sealed.",
+      edgeIds: ["rootwell-echo", "rootwell-spore", "spore-sealed"],
+    },
   ],
 };

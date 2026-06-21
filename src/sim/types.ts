@@ -6,12 +6,22 @@ export type Visibility = "unknown" | "known" | "visited";
 
 export type EdgeState = "open" | "blocked" | "collapsed";
 
+export type SimulationEventType =
+  | "survey"
+  | "graph"
+  | "resource"
+  | "stability"
+  | "collapse"
+  | "warning"
+  | "tick";
+
 export interface CaveNode {
   id: string;
   name: string;
   resources: ResourceStock;
   stability: number;
-  occupants: string[];
+  factionIds: string[];
+  npcIds: string[];
   visibility: Visibility;
 }
 
@@ -21,6 +31,7 @@ export interface CaveEdge {
   to: string;
   state: EdgeState;
   traversalCost: number;
+  stabilityStress: number;
 }
 
 export interface Faction {
@@ -36,5 +47,15 @@ export interface WorldSnapshot {
   nodes: CaveNode[];
   edges: CaveEdge[];
   factions: Faction[];
-  events: string[];
+  events: SimulationEvent[];
+}
+
+export interface SimulationEvent {
+  id: string;
+  tick: number;
+  type: SimulationEventType;
+  message: string;
+  nodeIds?: string[];
+  edgeIds?: string[];
+  factionIds?: string[];
 }
