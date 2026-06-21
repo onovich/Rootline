@@ -1,9 +1,9 @@
 ---
-name: goal-phase-executor
+name: do-next-goal
 description: Execute a project goal through planned rounds with goal-mode tracking, strict round budgets, end-of-round self-checks, debugging, architecture review, and explicit acceptance gates before advancing. Use when a user asks an AI agent to complete upcoming goals, follow a project plan by rounds or phases, work in "goal mode", continue until the goal is done, or self-check/debug/review architecture after each round.
 ---
 
-# Goal Phase Executor
+# DoNextGoal
 
 ## Purpose
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "DoNextGoal"
+  short_description: "Run phased goals with strict self-checks"
+  default_prompt: "Use $do-next-goal to complete the next project goal in planned rounds with self-checks before advancing."

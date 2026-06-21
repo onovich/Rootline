@@ -1,9 +1,9 @@
 ---
-name: phase-design-guardrails
+name: goal-next
 description: Create the detailed design document for the next project phase from an existing project plan, including per-round acceptance gates, self-check/debug/architecture-review standards, and strong code quality constraints to prevent brittle, tangled, or unmaintainable implementation. Use when a user asks an AI agent to plan the next phase, turn a roadmap phase into executable design docs, define round-by-round self-check standards, or impose strict coding guardrails before implementation.
 ---
 
-# Phase Design Guardrails
+# GoalNext
 
 ## Purpose
 

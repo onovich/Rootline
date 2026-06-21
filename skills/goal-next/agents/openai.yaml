@@ -1,0 +1,4 @@
+interface:
+  display_name: "GoalNext"
+  short_description: "Plan next phases with code quality gates"
+  default_prompt: "Use $goal-next to design the next project phase with self-check standards and strong code constraints."

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Phase Design Guardrails"
-  short_description: "Plan next phases with code quality gates"
-  default_prompt: "Use $phase-design-guardrails to design the next project phase with self-check standards and strong code constraints."
