@@ -1,4 +1,4 @@
 interface:
   display_name: "DoNextGoal"
-  short_description: "Run phased goals with strict self-checks"
-  default_prompt: "Use $do-next-goal to complete the next project goal in planned rounds with self-checks before advancing."
+  short_description: "Execute next goals by session role"
+  default_prompt: "Use $do-next-goal to execute the next project goal for the current session role, asking me to choose 主策划, 执行策划, 架构师, or 执行程序 if unclear."
