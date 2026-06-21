@@ -44,6 +44,7 @@ export interface Faction {
 export interface WorldSnapshot {
   tick: number;
   seed: number;
+  rngState: number;
   nodes: CaveNode[];
   edges: CaveEdge[];
   factions: Faction[];

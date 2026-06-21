@@ -1,8 +1,10 @@
 import type { WorldSnapshot } from "../sim/types.js";
+import { createInitialRngState } from "../sim/rng.js";
 
 export const seedScenario: WorldSnapshot = {
   tick: 0,
   seed: 104729,
+  rngState: createInitialRngState(104729),
   nodes: [
     {
       id: "rootwell",
